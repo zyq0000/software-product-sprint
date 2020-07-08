@@ -1,9 +1,25 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  width: auto;
 }
 
-#greeting-container {
+.image-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-thumbnails img {
+  margin: 10px;
+  max-height: auto;
+  max-width: auto;
+}
+
+.image-thumbnails img:hover {
+  border: thick solid black;
+}
+
+#random-image-container img {
   margin-top: 20px;
 }
