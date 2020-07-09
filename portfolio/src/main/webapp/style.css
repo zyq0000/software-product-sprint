@@ -20,4 +20,6 @@
 
 #random-image-container img {
   margin-top: 20px;
+  width: 500px;
+  height: auto;
 }

@@ -38,4 +38,18 @@ function myFunction() {
     document.getElementById("top").classList.remove("w3-card-4", "w3-animate-opacity");
   }
 }
+function randomizeImage() {
+  var name = new Array('JayChou', 'JJLin', 'Sodagreen', 'Mayday', 'StefanieSun', 'Taylor', 'Troye');
+  const imageIndex = Math.floor(Math.random() * 3);
+  const imageName = Math.floor(Math.random() * 7);
+  const imgUrl = 'images/' + name[imageName] + '_' + imageIndex + '.jpg';
+
+  const imgElement = document.createElement('img');
+  imgElement.src = imgUrl;
+
+  const imageContainer = document.getElementById('random-image-container');
+  // Remove the previous image.
+  imageContainer.innerHTML = '';
+  imageContainer.appendChild(imgElement);
+}
 
