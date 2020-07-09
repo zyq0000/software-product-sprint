@@ -10,10 +10,8 @@
   justify-content: center;
 }
 
-.image-thumbnails img {
-  margin: 10px;
-  max-height: auto;
-  max-width: auto;
+.w3-row-padding img {
+    margin-bottom: 12px
 }
 
 .image-thumbnails img:hover {
