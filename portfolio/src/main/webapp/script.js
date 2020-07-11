@@ -13,19 +13,32 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Fetches a greeting from the server and adds it to the DOM.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Troye Sivan', 'Taylor Swift', 'JJ Lin', 'Stefanie Sun', 'Jay Zhou', 'Sodagreen', 'Mayday'];
+function getGreeting() {
+  console.log('Fetching a greeting.');
+  const responsePromise = fetch('/data');
+  responsePromise.then(handleResponse);
+}
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+/**
+ * Handles response by converting it to text and passing the result to
+ * addGreetingToDom().
+ */
+function handleResponse(response) {
+  console.log('Handling the response.');
+  const textPromise = response.text();
+  textPromise.then(addGreetingToDom);
+}
 
-  // Add it to the page.
+/** Adds a greeting to the DOM. */
+function addGreetingToDom(greeting) {
+  console.log('Adding greeting to dom: ' + greeting);
+
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
 
 // Change style of top container on scroll
 window.onscroll = function() {myFunction()};

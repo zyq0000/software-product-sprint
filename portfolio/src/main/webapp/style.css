@@ -23,3 +23,7 @@
   width: 500px;
   height: auto;
 }
+
+#greeting-container {
+  margin-top: 20px;
+}
