@@ -16,10 +16,10 @@
 function getMessages() {
     fetch('/data').then(response => response.json()).then((messages) => {
         const messagesElement = document.getElementById('messages-container');
-        messagesElement.innerHTML = '';
+        messagesElement.innerHTML = "";
         console.log(messages);
-        for (i of messages){
-            messagesElement.innerHTML += "<p>"+i+"</p>";
+        for (m of messages) {
+        messagesElement.innerHTML += "<li><p>"+m.comment+"</p></li>";
         }
     });
 }

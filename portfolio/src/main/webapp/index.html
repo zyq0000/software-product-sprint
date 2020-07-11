@@ -97,19 +97,26 @@
                     <p>Qingfeng's voice is clean, comfortable and gentle. Their music can give people power in an invisible way. </p>
                 </div>
             </div>
-
-            <div id="messages" class="w3-margin">
-                <button class="w3-btn w3-black" onclick="getMessages()">Click to show other comments!</button>
-                <div id="messages-container"></div>
-            </div>
-
+       </div>
+    </body>
+    <br>
+    <body onload="getMessages()">
+        <div class="w3-content">
             <div class="w3-row w3-margin">
+                <h2 align="center" class="w3-black" style="padding:8px">Comment Section</h2>
+            
+                <div id="messages">
+                    <ul class="w3-ul">
+                        <div id="messages-container"></div>
+                    </ul>
+                </div>
+
                 <form action="/data" method="POST">
-                    <p>Enter a comment:</p>
+                    <p style="font-size:20px">Enter your comment:</p>
                     <textarea name="text-input" class="w3-input" placeholder="Comment here!"></textarea>
                     <br>
                     <input type="submit" class="w3-btn w3-black" />
-                </form>
+                </form> 
             </div>
         </div>
     </body>
