@@ -55,6 +55,7 @@ public class DataServlet extends HttpServlet {
             float score;
             if (entity.getProperty("score") == null) {
                 score = getSentimentScore(comment);
+                entity.setProperty("score", score);
             }
             else {
                 score = (float) entity.getProperty("score");
