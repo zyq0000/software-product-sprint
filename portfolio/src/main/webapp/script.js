@@ -12,33 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Fetches a greeting from the server and adds it to the DOM.
- */
-function getGreeting() {
-  console.log('Fetching a greeting.');
-  const responsePromise = fetch('/data');
-  responsePromise.then(handleResponse);
+
+function getMessages() {
+    fetch('/data').then(response => response.json()).then((messages) => {
+        const messagesElement = document.getElementById('messages-container');
+        messagesElement.innerHTML = '';
+        console.log(messages);
+        for (i of messages){
+            messagesElement.innerHTML += "<p>"+i+"</p>";
+        }
+    });
 }
-
-/**
- * Handles response by converting it to text and passing the result to
- * addGreetingToDom().
- */
-function handleResponse(response) {
-  console.log('Handling the response.');
-  const textPromise = response.text();
-  textPromise.then(addGreetingToDom);
-}
-
-/** Adds a greeting to the DOM. */
-function addGreetingToDom(greeting) {
-  console.log('Adding greeting to dom: ' + greeting);
-
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
 
 // Change style of top container on scroll
 window.onscroll = function() {myFunction()};
@@ -51,6 +35,7 @@ function myFunction() {
     document.getElementById("top").classList.remove("w3-card-4", "w3-animate-opacity");
   }
 }
+
 function randomizeImage() {
   var name = new Array('JayChou', 'JJLin', 'Sodagreen', 'Mayday', 'StefanieSun', 'Taylor', 'Troye');
   const imageIndex = Math.floor(Math.random() * 3);
