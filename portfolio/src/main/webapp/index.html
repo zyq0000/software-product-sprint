@@ -19,11 +19,8 @@
             <a href="images.html" style="width:33%;font-size:20px" class="w3-bar-item w3-button">Get More Pictures</a>
             <a href="random.html" style="width:33%;font-size:20px" class="w3-bar-item w3-button">Get a Random Picture</a>
         </div>
-
-        <div class="w3-content">  
-            <p>Click here to see some messages:</p>
-            <button class="w3-btn w3-black" onclick="getMessages()">Fetch some messages!</button>
-            <div id="messages-container"></div>
+        <br>
+        <div class="w3-content">
             <div class="w3-row w3-margin">
                 <div class="w3-third">
                     <img src="images/Troye_0.jpg" style="width:100%;min-height:200px">
@@ -99,6 +96,20 @@
                     <p>Sodagreen is a Chinese indie band formed in 2001 with six members, Wu Qing-Feng (vocal), Liu Jia-Kai (guitar), Ho Jing-Yang (guitar), Kung Yu-Chi (piano, viola, keyboards), Hsieh Shin-Yi (bass guitar, piano), Shih Jun-Wei (drums). </p>
                     <p>Qingfeng's voice is clean, comfortable and gentle. Their music can give people power in an invisible way. </p>
                 </div>
+            </div>
+
+            <div id="messages" class="w3-margin">
+                <button class="w3-btn w3-black" onclick="getMessages()">Click to show other comments!</button>
+                <div id="messages-container"></div>
+            </div>
+
+            <div class="w3-row w3-margin">
+                <form action="/data" method="POST">
+                    <p>Enter a comment:</p>
+                    <textarea name="text-input" class="w3-input" placeholder="Comment here!"></textarea>
+                    <br>
+                    <input type="submit" class="w3-btn w3-black" />
+                </form>
             </div>
         </div>
     </body>
