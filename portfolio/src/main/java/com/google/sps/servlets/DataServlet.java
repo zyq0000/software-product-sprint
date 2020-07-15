@@ -52,8 +52,14 @@ public class DataServlet extends HttpServlet {
             long id = entity.getKey().getId();
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
-
-            Message message = new Message(id, comment, timestamp);
+            float score;
+            if (entity.getProperty("score") == null) {
+                score = getSentimentScore(comment);
+            }
+            else {
+                score = (float) entity.getProperty("score");
+            }
+            Message message = new Message(id, comment, timestamp, score);
             messages.add(message);
         }
 
@@ -67,30 +73,34 @@ public class DataServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = getParameter(request, "text-input", "");
         long timestamp = System.currentTimeMillis();
-        
-        /* Calculate the sentiment score of the comment. */
-        Document doc =
-        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
-        LanguageServiceClient languageService = LanguageServiceClient.create();
-        Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-        float score = sentiment.getScore();
-        languageService.close();
-        System.out.println(score);
+        float score = getSentimentScore(comment);
         
         Entity messageEntity = new Entity("Message");
         messageEntity.setProperty("comment", comment);
         messageEntity.setProperty("timestamp", timestamp);
+        messageEntity.setProperty("score", score);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(messageEntity);
 
         response.sendRedirect("/index.html");
     }
+    
+    /* Calculate the sentiment score of the comment. */
+    private float getSentimentScore(String comment) throws IOException{
+        Document doc =
+        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+        LanguageServiceClient languageService = LanguageServiceClient.create();
+        Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+        float score = sentiment.getScore();
+        languageService.close();
+        return score;
+    }
 
     private String getParameter(HttpServletRequest request, String name, String defaultValue) {
         String value = request.getParameter(name);
         if (value == null) {
-        return defaultValue;
+            return defaultValue;
         }
         return value;
     }
