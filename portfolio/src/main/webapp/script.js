@@ -17,7 +17,7 @@
  */
 function addRandomGreeting() {
   const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+      ['Troye Sivan', 'Taylor Swift', 'JJ Lin', 'Stefanie Sun', 'Jay Zhou', 'Sodagreen', 'Mayday'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
@@ -26,3 +26,30 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+// Change style of top container on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("top").classList.add("w3-card-4", "w3-animate-opacity");
+    document.getElementById("intro").classList.add("w3-show-inline-block");
+  } else {
+    document.getElementById("intro").classList.remove("w3-show-inline-block");
+    document.getElementById("top").classList.remove("w3-card-4", "w3-animate-opacity");
+  }
+}
+function randomizeImage() {
+  var name = new Array('JayChou', 'JJLin', 'Sodagreen', 'Mayday', 'StefanieSun', 'Taylor', 'Troye');
+  const imageIndex = Math.floor(Math.random() * 3);
+  const imageName = Math.floor(Math.random() * 7);
+  const imgUrl = 'images/' + name[imageName] + '_' + imageIndex + '.jpg';
+
+  const imgElement = document.createElement('img');
+  imgElement.src = imgUrl;
+
+  const imageContainer = document.getElementById('random-image-container');
+  // Remove the previous image.
+  imageContainer.innerHTML = '';
+  imageContainer.appendChild(imgElement);
+}
+
