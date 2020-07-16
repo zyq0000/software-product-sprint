@@ -12,16 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 function getMessages() {
     fetch('/data').then(response => response.json()).then((messages) => {
-        const messagesElement = document.getElementById('messages-container');
-        messagesElement.innerHTML = "";
-        console.log(messages);
-        for (m of messages) {
-        messagesElement.innerHTML += "<li><p>"+m.comment+"</p></li>";
-        }
+        const messageListElement = document.getElementById('messages-container');  
+        messages.forEach((m) => {
+            messageListElement.appendChild(createMessageElement(m));
+        })
     });
+}
+
+/** Creates an element that represents a message, including its score. */
+function createMessageElement(m) {
+    const messageElement = document.createElement('tr');
+
+    const commentElement = document.createElement('td');
+    commentElement.innerText = m.comment;
+
+    const scoreElement = document.createElement('td');
+    scoreElement.className = "w3-center";
+    scoreElement.innerText = m.score * 100;
+
+    messageElement.appendChild(commentElement);
+    messageElement.appendChild(scoreElement);
+    return messageElement;
 }
 
 // Change style of top container on scroll
