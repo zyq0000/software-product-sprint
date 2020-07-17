@@ -4,9 +4,9 @@ public final class Message {
   private final long id;
   private final String comment;
   private final long timestamp;
-  private final float score;
+  private final double score;
 
-  public Message(long id, String comment, long timestamp, float score) {
+  public Message(long id, String comment, long timestamp, double score) {
     this.id = id;
     this.comment = comment;
     this.timestamp = timestamp;

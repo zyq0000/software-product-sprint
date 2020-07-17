@@ -30,7 +30,7 @@ function createMessageElement(m) {
 
     const scoreElement = document.createElement('td');
     scoreElement.className = "w3-center";
-    scoreElement.innerText = m.score * 100;
+    scoreElement.innerText = Math.round(m.score * 100 * 100) / 100;
 
     messageElement.appendChild(commentElement);
     messageElement.appendChild(scoreElement);

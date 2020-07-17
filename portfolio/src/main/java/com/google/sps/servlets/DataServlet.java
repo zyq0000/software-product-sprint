@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    private List<String> messages = new ArrayList<>();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -52,13 +51,13 @@ public class DataServlet extends HttpServlet {
             long id = entity.getKey().getId();
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
-            float score;
+            double score;
             if (entity.getProperty("score") == null) {
                 score = getSentimentScore(comment);
                 entity.setProperty("score", score);
             }
             else {
-                score = (float) entity.getProperty("score");
+                score = (double) entity.getProperty("score");
             }
             Message message = new Message(id, comment, timestamp, score);
             messages.add(message);
@@ -74,7 +73,7 @@ public class DataServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = getParameter(request, "text-input", "");
         long timestamp = System.currentTimeMillis();
-        float score = getSentimentScore(comment);
+        double score = getSentimentScore(comment);
         
         Entity messageEntity = new Entity("Message");
         messageEntity.setProperty("comment", comment);
@@ -88,12 +87,12 @@ public class DataServlet extends HttpServlet {
     }
     
     /* Calculate the sentiment score of the comment. */
-    private float getSentimentScore(String comment) throws IOException{
+    private double getSentimentScore(String comment) throws IOException{
         Document doc =
         Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
         LanguageServiceClient languageService = LanguageServiceClient.create();
         Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-        float score = sentiment.getScore();
+        double score = sentiment.getScore();
         languageService.close();
         return score;
     }
