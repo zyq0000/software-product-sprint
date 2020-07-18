@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Yunqi's Favorite Singers</title>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="w3.css">
         <link rel="stylesheet" href="style.css">
         <script src="script.js"></script>
     </head>
@@ -37,12 +37,15 @@
         <div class="w3-content">
             <div class="w3-row w3-margin">
                 <h2 align="center" class="w3-black" style="padding:8px">Comment Section</h2>
-                <div id="messages">
-                    <ul class="w3-ul">
-                        <div id="messages-container"></div>
-                    </ul>
-                </div>
-
+                <table id="messages-container" class="w3-table">
+                    <tr>
+                        <th style="width:80%;font-size:20px" class="w3-center">Comment</th>
+                        <th style="width:20%;font-size:20px" class="w3-center">Score</th>
+                    </tr>
+                </table>
+                <br>
+                <p> Note: The score refers to the sentiment score which measures the positivity or negativity of text. 
+                    100 means that the text is completely positive. -100 means that the text is completely negative.</p>
                 <form action="/data" method="POST">
                     <p style="font-size:20px">Enter your comment:</p>
                     <textarea name="text-input" class="w3-input" placeholder="Comment here!"></textarea>
@@ -53,5 +56,3 @@
         </div>
     </body>
 </html>
-
-

@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -35,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    private List<String> messages = new ArrayList<>();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -49,8 +51,15 @@ public class DataServlet extends HttpServlet {
             long id = entity.getKey().getId();
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
-
-            Message message = new Message(id, comment, timestamp);
+            double score;
+            if (entity.getProperty("score") == null) {
+                score = getSentimentScore(comment);
+                entity.setProperty("score", score);
+            }
+            else {
+                score = (double) entity.getProperty("score");
+            }
+            Message message = new Message(id, comment, timestamp, score);
             messages.add(message);
         }
 
@@ -64,21 +73,34 @@ public class DataServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String comment = getParameter(request, "text-input", "");
         long timestamp = System.currentTimeMillis();
-
+        double score = getSentimentScore(comment);
+        
         Entity messageEntity = new Entity("Message");
         messageEntity.setProperty("comment", comment);
         messageEntity.setProperty("timestamp", timestamp);
+        messageEntity.setProperty("score", score);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(messageEntity);
 
         response.sendRedirect("/index.html");
     }
+    
+    /* Calculate the sentiment score of the comment. */
+    private double getSentimentScore(String comment) throws IOException{
+        Document doc =
+        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+        LanguageServiceClient languageService = LanguageServiceClient.create();
+        Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+        double score = sentiment.getScore();
+        languageService.close();
+        return score;
+    }
 
     private String getParameter(HttpServletRequest request, String name, String defaultValue) {
         String value = request.getParameter(name);
         if (value == null) {
-        return defaultValue;
+            return defaultValue;
         }
         return value;
     }
